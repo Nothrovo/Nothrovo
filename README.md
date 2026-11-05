@@ -19,35 +19,69 @@
 
   <br />
 
-  <!-- Section 1: Cyber SOC & Defense Matrix -->
+  <!-- Section 1: Cyber SOC & Defense Matrix (Clickable) -->
   <h3>🛡️ Security Operations Center & Defense Matrix</h3>
   <p>
-    <img src="https://img.shields.io/badge/Wazuh_SIEM-120d1c?style=for-the-badge&logoColor=b388ff" width="180" alt="Wazuh SIEM" />
-    <img src="https://img.shields.io/badge/Incident_Response-120d1c?style=for-the-badge&logoColor=ff4b72" width="210" alt="Incident Response" />
-    <img src="https://img.shields.io/badge/DFIR_IRIS-120d1c?style=for-the-badge&logo=target&logoColor=b388ff" width="160" alt="DFIR IRIS" />
-    <img src="https://img.shields.io/badge/n8n_SOAR-120d1c?style=for-the-badge&logo=n8n&logoColor=ff4b72" width="165" alt="n8n SOAR" />
+    <a href="https://wazuh.com" target="_blank">
+      <img src="https://img.shields.io/badge/Wazuh_SIEM-120d1c?style=for-the-badge&logoColor=b388ff" width="180" alt="Wazuh SIEM" />
+    </a>
+    <a href="https://en.wikipedia.org/wiki/Incident_response" target="_blank">
+      <img src="https://img.shields.io/badge/Incident_Response-120d1c?style=for-the-badge&logoColor=ff4b72" width="210" alt="Incident Response" />
+    </a>
+    <a href="https://dfir-iris.org" target="_blank">
+      <img src="https://img.shields.io/badge/DFIR_IRIS-120d1c?style=for-the-badge&logo=target&logoColor=b388ff" width="160" alt="DFIR IRIS" />
+    </a>
+    <a href="https://n8n.io" target="_blank">
+      <img src="https://img.shields.io/badge/n8n_SOAR-120d1c?style=for-the-badge&logo=n8n&logoColor=ff4b72" width="165" alt="n8n SOAR" />
+    </a>
     <br />
-    <img src="https://img.shields.io/badge/Elasticsearch-120d1c?style=for-the-badge&logo=elasticsearch&logoColor=b388ff" width="190" alt="Elasticsearch" />
-    <img src="https://img.shields.io/badge/Wireshark-120d1c?style=for-the-badge&logo=wireshark&logoColor=ff4b72" width="160" alt="Wireshark" />
-    <img src="https://img.shields.io/badge/Burp_Suite-120d1c?style=for-the-badge&logo=burpsuite&logoColor=b388ff" width="165" alt="Burp Suite" />
-    <img src="https://img.shields.io/badge/Linux_Hardening-120d1c?style=for-the-badge&logo=linux&logoColor=ff4b72" width="200" alt="Linux Hardening" />
+    <a href="https://www.elastic.co/elasticsearch" target="_blank">
+      <img src="https://img.shields.io/badge/Elasticsearch-120d1c?style=for-the-badge&logo=elasticsearch&logoColor=b388ff" width="190" alt="Elasticsearch" />
+    </a>
+    <a href="https://www.wireshark.org" target="_blank">
+      <img src="https://img.shields.io/badge/Wireshark-120d1c?style=for-the-badge&logo=wireshark&logoColor=ff4b72" width="160" alt="Wireshark" />
+    </a>
+    <a href="https://portswigger.net/burp" target="_blank">
+      <img src="https://img.shields.io/badge/Burp_Suite-120d1c?style=for-the-badge&logo=burpsuite&logoColor=b388ff" width="165" alt="Burp Suite" />
+    </a>
+    <a href="https://wiki.archlinux.org/title/Security" target="_blank">
+      <img src="https://img.shields.io/badge/Linux_Hardening-120d1c?style=for-the-badge&logo=linux&logoColor=ff4b72" width="200" alt="Linux Hardening" />
+    </a>
   </p>
 
   <br />
 
-  <!-- Section 2: Developer Tooling & Systems -->
+  <!-- Section 2: Developer Tooling & Systems (Clickable) -->
   <h3>💣 Web & Systems Tooling</h3>
   <p>
-    <img src="https://img.shields.io/badge/Python-120d1c?style=for-the-badge&logo=python&logoColor=ff4b72" width="150" alt="Python" />
-    <img src="https://img.shields.io/badge/FastAPI-120d1c?style=for-the-badge&logo=fastapi&logoColor=b388ff" width="150" alt="FastAPI" />
-    <img src="https://img.shields.io/badge/Node.js-120d1c?style=for-the-badge&logo=nodedotjs&logoColor=ff4b72" width="155" alt="Node.js" />
-    <img src="https://img.shields.io/badge/TypeScript-120d1c?style=for-the-badge&logo=typescript&logoColor=b388ff" width="180" alt="TypeScript" />
+    <a href="https://www.python.org" target="_blank">
+      <img src="https://img.shields.io/badge/Python-120d1c?style=for-the-badge&logo=python&logoColor=ff4b72" width="150" alt="Python" />
+    </a>
+    <a href="https://fastapi.tiangolo.com" target="_blank">
+      <img src="https://img.shields.io/badge/FastAPI-120d1c?style=for-the-badge&logo=fastapi&logoColor=b388ff" width="150" alt="FastAPI" />
+    </a>
+    <a href="https://nodejs.org" target="_blank">
+      <img src="https://img.shields.io/badge/Node.js-120d1c?style=for-the-badge&logo=nodedotjs&logoColor=ff4b72" width="155" alt="Node.js" />
+    </a>
+    <a href="https://www.typescriptlang.org" target="_blank">
+      <img src="https://img.shields.io/badge/TypeScript-120d1c?style=for-the-badge&logo=typescript&logoColor=b388ff" width="180" alt="TypeScript" />
+    </a>
     <br />
-    <img src="https://img.shields.io/badge/PostgreSQL-120d1c?style=for-the-badge&logo=postgresql&logoColor=b388ff" width="175" alt="PostgreSQL" />
-    <img src="https://img.shields.io/badge/Redis-120d1c?style=for-the-badge&logo=redis&logoColor=ff4b72" width="135" alt="Redis" />
-    <img src="https://img.shields.io/badge/Docker-120d1c?style=for-the-badge&logo=docker&logoColor=b388ff" width="145" alt="Docker" />
-    <img src="https://img.shields.io/badge/Arch_Linux-120d1c?style=for-the-badge&logo=archlinux&logoColor=ff4b72" width="185" alt="Arch Linux" />
-    <img src="https://img.shields.io/badge/Git-120d1c?style=for-the-badge&logo=git&logoColor=b388ff" width="120" alt="Git" />
+    <a href="https://www.postgresql.org" target="_blank">
+      <img src="https://img.shields.io/badge/PostgreSQL-120d1c?style=for-the-badge&logo=postgresql&logoColor=b388ff" width="175" alt="PostgreSQL" />
+    </a>
+    <a href="https://redis.io" target="_blank">
+      <img src="https://img.shields.io/badge/Redis-120d1c?style=for-the-badge&logo=redis&logoColor=ff4b72" width="135" alt="Redis" />
+    </a>
+    <a href="https://www.docker.com" target="_blank">
+      <img src="https://img.shields.io/badge/Docker-120d1c?style=for-the-badge&logo=docker&logoColor=b388ff" width="145" alt="Docker" />
+    </a>
+    <a href="https://archlinux.org" target="_blank">
+      <img src="https://img.shields.io/badge/Arch_Linux-120d1c?style=for-the-badge&logo=archlinux&logoColor=ff4b72" width="185" alt="Arch Linux" />
+    </a>
+    <a href="https://git-scm.com" target="_blank">
+      <img src="https://img.shields.io/badge/Git-120d1c?style=for-the-badge&logo=git&logoColor=b388ff" width="120" alt="Git" />
+    </a>
   </p>
 
   <br />
@@ -90,8 +124,8 @@
     </a>
     <br />
     <img src="https://img.shields.io/badge/Unit-SOC_LAB-120d1c?style=for-the-badge&logo=shield&logoColor=ff4b72" alt="SOC LAB" />
-    <a href="https://linkedin.com">
-      <img src="https://img.shields.io/badge/LinkedIn-Connect-120d1c?style=for-the-badge&logo=linkedin&logoColor=b388ff" alt="LinkedIn" />
+    <a href="https://www.linkedin.com/in/hadind" target="_blank">
+      <img src="https://img.shields.io/badge/LinkedIn-Hadi_Nurhasan_Darma-120d1c?style=for-the-badge&logo=linkedin&logoColor=b388ff" alt="LinkedIn Profile" />
     </a>
   </p>
 
