@@ -1,4 +1,4 @@
-<p align="center"><img src="https://media0.giphy.com/media/A9mRuRtTa6wYHQgVVi/giphy.gif" width="440" alt="Bomb Devil explosion over the night city" /></p>
+<p align="center"><img src="https://media0.giphy.com/media/A9mRuRtTa6wYHQgVVi/giphy.gif" width="880" alt="Bomb Devil explosion over the night city" /></p>
 
 # Hadi Nurhasan Darma — Nothrovo
 
