@@ -4,8 +4,10 @@
 from __future__ import annotations
 
 import argparse
+import html
 import re
 from pathlib import Path
+from urllib.parse import parse_qsl, urlsplit
 
 
 EXPLOSION_GIF = "https://media0.giphy.com/media/A9mRuRtTa6wYHQgVVi/giphy.gif"
@@ -111,6 +113,23 @@ def image_entries(text: str) -> list[tuple[int, str, str]]:
     return sorted(images)
 
 
+def first_image_entry(text: str) -> tuple[str, str, str, str] | None:
+    """Return the first rendered image as (kind, URL, alt, source tag)."""
+    markdown_source = strip_html_tags(text)
+    candidates = [
+        (match.start(), "markdown", match.group(2), match.group(1), match.group(0))
+        for match in MARKDOWN_IMAGE_RE.finditer(markdown_source)
+    ]
+    for offset, tag in html_tags(text):
+        if re.match(r"<img\b", tag, re.IGNORECASE):
+            attrs = quoted_attrs(tag)
+            candidates.append((offset, "html", attrs.get("src", ""), attrs.get("alt", ""), tag))
+    if not candidates:
+        return None
+    _, kind, url, alt, source = min(candidates, key=lambda candidate: candidate[0])
+    return kind, url, alt, source
+
+
 def strip_html_tags(text: str) -> str:
     return HTML_TAG_RE.sub(lambda match: _blank(match.group(0)), text)
 
@@ -154,28 +173,57 @@ def validate(text: str) -> list[str]:
                 if has_unquoted_attr(tag, attr):
                     failures.append(f"HTML img {attr} must use a quoted {attr} attribute")
 
-    if not images or images[0][1] != EXPLOSION_GIF:
+    first_image = first_image_entry(active)
+    if first_image is None or first_image[1] != EXPLOSION_GIF:
         failures.append(f"explosion GIF must be the first image and use exactly {EXPLOSION_GIF}")
+
+    if (
+        first_image is None
+        or first_image[0] != "html"
+        or first_image[1] != EXPLOSION_GIF
+        or not meaningful_alt(first_image[2])
+        or quoted_attrs(first_image[3]).get("width") != "440"
+    ):
+        failures.append("first explosion GIF HTML image width must be exactly 440")
 
     gif_count = sum(bool(re.search(r"\.gif(?:[?#].*)?$", url, re.IGNORECASE)) for _, url, _ in images)
     if gif_count != 1:
         failures.append(f"exactly one GIF is required; found {gif_count}")
 
-    for service in ("readme-typing-svg", "streak-stats", "capsule-render"):
-        if service in lowered:
-            failures.append(f"{service} is forbidden")
+    if "streak-stats" in lowered:
+        failures.append("streak-stats is forbidden")
+
+    typing_urls = [url for _, url, _ in images if "readme-typing-svg" in url.lower()]
+    typing_query: list[tuple[str, str]] = []
+    if len(typing_urls) == 1:
+        typing_query = parse_qsl(urlsplit(html.unescape(typing_urls[0])).query, keep_blank_values=True)
+    fonts = [value for name, value in typing_query if name == "font"]
+    lines = [value for name, value in typing_query if name == "lines"]
+    if (
+        len(typing_urls) != 1
+        or fonts != ["Space Mono"]
+        or lines != ["Evidence first. Detonate."]
+    ):
+        failures.append(
+            "typing SVG must be exactly one image with font=Space+Mono and exactly "
+            "lines=Evidence+first.+Detonate."
+        )
+
+    capsule_count = sum("capsule-render" in url.lower() for _, url, _ in images)
+    if capsule_count > 2:
+        failures.append(f"capsule-render images must be <= 2; found {capsule_count}")
 
     br_count = len(re.findall(r"<br\b", active, re.IGNORECASE))
-    if br_count > 2:
-        failures.append(f"manual <br> occurrences must be <= 2; found {br_count}")
+    if br_count != 0:
+        failures.append(f"manual <br> occurrences must be exactly zero; found {br_count}")
 
     shield_count = sum("img.shields.io" in url.lower() for _, url, _ in images)
-    if shield_count > 12:
-        failures.append(f"img.shields.io occurrences must be <= 12; found {shield_count}")
+    if shield_count > 18:
+        failures.append(f"img.shields.io occurrences must be <= 18; found {shield_count}")
 
     stats_images = [(offset, url) for offset, url, _ in images if STATS_URL_RE.search(url)]
-    if len(stats_images) > 2:
-        failures.append(f"stats cards must total <= 2; found {len(stats_images)}")
+    if stats_images:
+        failures.append(f"stats cards are forbidden; found {len(stats_images)}")
 
     h1_lines = re.findall(r"^#\s+(.+)$", visible_text, re.MULTILINE)
     if not any("Hadi Nurhasan Darma" in line and "Nothrovo" in line for line in h1_lines):
@@ -185,26 +233,33 @@ def validate(text: str) -> list[str]:
         if phrase not in visible_text:
             failures.append(f"native text must contain {phrase}")
 
-    first_stats = stats_images[0][0] if stats_images else len(active)
-    linked_before_stats = {destination for offset, destination in links if offset < first_stats}
-    if not PINNED_PROJECT_URLS.issubset(linked_before_stats):
-        failures.append(
-            "all five pinned project links must occur before the first stats URL or end of document"
-        )
+    destinations = {destination for _, destination in links}
+    h3_project_urls = re.findall(
+        r"^### \[[^]\n]+\]\(([^\s)]+)\)$", active, re.MULTILINE
+    )
+    if (
+        len(h3_project_urls) != 5
+        or len(set(h3_project_urls)) != 5
+        or set(h3_project_urls) != PINNED_PROJECT_URLS
+    ):
+        failures.append("Selected Work must contain exactly five unique required Markdown H3 project links")
     if MEDCHAIN_PROJECT_URL in {destination for _, destination in links}:
         failures.append("MedChain project link is forbidden; represent MedChain only through skills")
 
     if any(not meaningful_alt(alt) for _, _, alt in images):
         failures.append("all images must have meaningful nonempty alt text")
 
-    if re.search(r"</?(?:style|script)\b|\bstyle\s*=", active, re.IGNORECASE):
+    if any(
+        re.match(r"</?(?:style|script)\b", tag, re.IGNORECASE)
+        or re.search(r"\bstyle\s*=", tag, re.IGNORECASE)
+        for _, tag in tags
+    ):
         failures.append("forbidden HTML/CSS found: style/script tags and style= are not allowed")
     if PIPE_TABLE_RE.search(active) or re.search(
         r"</?(?:table|caption|colgroup|col|thead|tbody|tfoot|tr|th|td)\b", active, re.IGNORECASE
     ):
         failures.append("table markup is forbidden")
 
-    destinations = {destination for _, destination in links}
     if "mailto:hadinurhasandarma@gmail.com" not in destinations:
         failures.append("a mailto email link is required")
     if "https://github.com/Nothrovo" not in destinations:
